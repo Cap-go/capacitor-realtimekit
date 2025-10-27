@@ -1,0 +1,10 @@
+{
+  "appId": "app.capgo.realtimekit",
+  "appName": "RealtimeKit Example",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}
