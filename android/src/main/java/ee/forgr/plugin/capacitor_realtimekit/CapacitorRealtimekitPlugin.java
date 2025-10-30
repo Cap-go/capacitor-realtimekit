@@ -19,7 +19,7 @@ import com.getcapacitor.annotation.Permission;
 public class CapacitorRealtimekitPlugin extends Plugin {
 
     private static final String TAG = "RealtimekitPlugin";
-    private final String pluginVersion = "7.0.3";
+    private final String pluginVersion = "7.0.4";
     private boolean isInitialized = false;
 
     @Override

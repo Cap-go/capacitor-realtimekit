@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.0.4](https://github.com/Cap-go/capacitor-realtimekit/compare/7.0.3...7.0.4) (2025-10-30)
+
+
+### Bug Fixes
+
+* pluginVersion lint issue ([3451ca2](https://github.com/Cap-go/capacitor-realtimekit/commit/3451ca2dae96cf268bf34974a4160f72b88d721b))
+
 ## [7.0.3](https://github.com/Cap-go/capacitor-realtimekit/compare/7.0.2...7.0.3) (2025-10-29)
 
 
