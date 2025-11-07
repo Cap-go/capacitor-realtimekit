@@ -27,7 +27,7 @@ public class CapacitorRealtimekitPlugin extends Plugin {
 
     private static final String TAG = "RealtimekitPlugin";
     private static final String REALTIMEKIT_BASE_DOMAIN = "realtime.cloudflare.com";
-    private final String pluginVersion = "7.0.6";
+    private final String pluginVersion = "7.1.0";
     private boolean isInitialized = false;
     private PendingMeetingRequest pendingMeetingRequest;
 
