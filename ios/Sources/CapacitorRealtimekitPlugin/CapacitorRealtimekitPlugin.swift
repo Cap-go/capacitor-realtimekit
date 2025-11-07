@@ -16,7 +16,7 @@ public class CapacitorRealtimekitPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getPluginVersion", returnType: CAPPluginReturnPromise)
     ]
 
-    private let implementation = CapacitorRealtimekit()
+    private lazy var implementation = CapacitorRealtimekit(plugin: self, pluginVersion: pluginVersion)
 
     @objc func initialize(_ call: CAPPluginCall) {
         implementation.initialize()
@@ -29,11 +29,17 @@ public class CapacitorRealtimekitPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
+        let trimmedToken = authToken.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedToken.isEmpty {
+            call.reject("authToken is required")
+            return
+        }
+
         let enableAudio = call.getBool("enableAudio") ?? true
         let enableVideo = call.getBool("enableVideo") ?? true
 
         implementation.startMeeting(
-            authToken: authToken,
+            authToken: trimmedToken,
             enableAudio: enableAudio,
             enableVideo: enableVideo
         ) { error in

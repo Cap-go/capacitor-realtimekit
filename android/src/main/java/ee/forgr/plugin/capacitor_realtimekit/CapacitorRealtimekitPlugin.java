@@ -1,13 +1,20 @@
 package ee.forgr.plugin.capacitor_realtimekit;
 
 import android.Manifest;
+import android.app.Activity;
 import android.util.Log;
+import com.cloudflare.realtimekit.models.RtkMeetingInfo;
+import com.cloudflare.realtimekit.ui.RealtimeKitUI;
+import com.cloudflare.realtimekit.ui.RealtimeKitUIBuilder;
+import com.cloudflare.realtimekit.ui.RealtimeKitUIInfo;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.PermissionState;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
+import com.getcapacitor.annotation.PermissionCallback;
 
 @CapacitorPlugin(
     name = "CapacitorRealtimekit",
@@ -19,8 +26,23 @@ import com.getcapacitor.annotation.Permission;
 public class CapacitorRealtimekitPlugin extends Plugin {
 
     private static final String TAG = "RealtimekitPlugin";
+    private static final String REALTIMEKIT_BASE_DOMAIN = "realtime.cloudflare.com";
     private final String pluginVersion = "7.0.5";
     private boolean isInitialized = false;
+    private PendingMeetingRequest pendingMeetingRequest;
+
+    private static final class PendingMeetingRequest {
+
+        private final String authToken;
+        private final boolean enableAudio;
+        private final boolean enableVideo;
+
+        private PendingMeetingRequest(String authToken, boolean enableAudio, boolean enableVideo) {
+            this.authToken = authToken;
+            this.enableAudio = enableAudio;
+            this.enableVideo = enableVideo;
+        }
+    }
 
     @Override
     public void load() {
@@ -30,8 +52,6 @@ public class CapacitorRealtimekitPlugin extends Plugin {
 
     @PluginMethod
     public void initialize(PluginCall call) {
-        // Initialize the RealtimeKit SDK
-        // TODO: Add Cloudflare RealtimeKit SDK initialization here
         isInitialized = true;
         Log.d(TAG, "RealtimeKit initialized");
         call.resolve();
@@ -53,20 +73,21 @@ public class CapacitorRealtimekitPlugin extends Plugin {
         Boolean enableAudio = call.getBoolean("enableAudio", true);
         Boolean enableVideo = call.getBoolean("enableVideo", true);
 
-        // Start meeting with the built-in UI
-        // TODO: Integrate with Cloudflare RealtimeKit SDK to launch meeting UI
-        // In a real implementation, this would:
-        // 1. Create and configure the RealtimeKit meeting activity/fragment
-        // 2. Set the auth token, audio, and video settings
-        // 3. Launch the meeting UI
+        String trimmedToken = authToken.trim();
+        if (trimmedToken.isEmpty()) {
+            call.reject("authToken is required");
+            return;
+        }
 
-        Log.d(TAG, "Starting meeting with authToken: " + authToken);
-        Log.d(TAG, "Audio enabled: " + enableAudio);
-        Log.d(TAG, "Video enabled: " + enableVideo);
+        PendingMeetingRequest request = new PendingMeetingRequest(trimmedToken, enableAudio, enableVideo);
 
-        // For now, just resolve successfully
-        // Real implementation would launch the meeting UI here
-        call.resolve();
+        if (!hasMediaPermissions()) {
+            pendingMeetingRequest = request;
+            requestPermissionForAliases(new String[] { "camera", "microphone" }, call, "startMeetingPermissionsCallback");
+            return;
+        }
+
+        launchMeeting(call, request);
     }
 
     @PluginMethod
@@ -78,5 +99,62 @@ public class CapacitorRealtimekitPlugin extends Plugin {
         } catch (final Exception e) {
             call.reject("Could not get plugin version", e);
         }
+    }
+
+    @PermissionCallback
+    private void startMeetingPermissionsCallback(PluginCall call) {
+        if (call == null) {
+            pendingMeetingRequest = null;
+            return;
+        }
+
+        if (!hasMediaPermissions()) {
+            pendingMeetingRequest = null;
+            call.reject("Camera and microphone permissions are required to start a meeting.");
+            return;
+        }
+
+        PendingMeetingRequest request = pendingMeetingRequest;
+        pendingMeetingRequest = null;
+
+        if (request == null) {
+            call.reject("Missing meeting configuration after granting permissions.");
+            return;
+        }
+
+        launchMeeting(call, request);
+    }
+
+    private boolean hasMediaPermissions() {
+        return getPermissionState("camera") == PermissionState.GRANTED && getPermissionState("microphone") == PermissionState.GRANTED;
+    }
+
+    private void launchMeeting(PluginCall call, PendingMeetingRequest request) {
+        pendingMeetingRequest = null;
+        Activity activity = getActivity();
+        if (activity == null) {
+            call.reject("Unable to access the current Activity to show the meeting UI.");
+            return;
+        }
+
+        activity.runOnUiThread(() -> {
+            try {
+                RtkMeetingInfo meetingInfo = new RtkMeetingInfo(
+                    request.authToken,
+                    request.enableAudio,
+                    request.enableVideo,
+                    REALTIMEKIT_BASE_DOMAIN
+                );
+                RealtimeKitUIInfo uiInfo = new RealtimeKitUIInfo(activity, meetingInfo);
+                RealtimeKitUI realtimeKitUI = RealtimeKitUIBuilder.build(uiInfo);
+                RealtimeKitUIBuilder.getMeeting().setUiKitInfo("capacitor-android", pluginVersion);
+                realtimeKitUI.startMeeting();
+                Log.d(TAG, "RealtimeKit meeting started successfully");
+                call.resolve();
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to start RealtimeKit meeting", e);
+                call.reject("Failed to start meeting: " + e.getMessage(), e);
+            }
+        });
     }
 }
