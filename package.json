@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-realtimekit",
-  "version": "7.1.3",
+  "version": "7.1.4",
   "description": "Cloudflare Calls integration for Capacitor apps with built-in UI for meetings.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
