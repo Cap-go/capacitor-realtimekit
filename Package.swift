@@ -12,7 +12,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0"),
         .package(url: "https://github.com/dyte-in/RealtimeKitCoreiOS.git", from: "1.6.0"),
-        .package(url: "https://github.com/dyte-in/RealtimeKitUI.git", from: "0.5.3")
+        .package(url: "https://github.com/dyte-in/RealtimeKitUI.git", from: "0.5.7")
     ],
     targets: [
         .target(
