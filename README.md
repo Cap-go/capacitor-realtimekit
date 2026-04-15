@@ -34,7 +34,7 @@ npx cap sync
 
 This plugin uses the Cloudflare RealtimeKit SDK:
 
-- **iOS**: [RealtimeKitCoreiOS](https://github.com/dyte-in/RealtimeKitCoreiOS) (automatically installed via Swift Package Manager)
+- **iOS**: [realtimekit-ios-core](https://github.com/cloudflare/realtimekit-ios-core) and [realtimekit-ios-ui](https://github.com/cloudflare/realtimekit-ios-ui) (automatically installed via Swift Package Manager)
 - **Android**: `com.cloudflare.realtimekit:ui-android` version `0.2.2` (can be customized via gradle variable `realtimekitUiVersion`)
 
 ### Customizing Android RealtimeKit Version
