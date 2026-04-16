@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.swift_version = '5.1'
 
   # Cloudflare RealtimeKit SDK - Note: This requires adding the podspec repo
-  # pod 'RealtimeKitCore', :git => 'https://github.com/dyte-in/RealtimeKitCoreiOS.git'
+  # pod 'RealtimeKitCore', :git => 'https://github.com/cloudflare/realtimekit-ios-core.git'
 end
