@@ -1,64 +1,72 @@
+import { CapacitorUpdater } from '@capgo/capacitor-updater';
+import { Capacitor } from '@capacitor/core';
 
 import './style.css';
 import { CapacitorRealtimekit } from '@capgo/capacitor-realtimekit';
 
 const plugin = CapacitorRealtimekit;
 const state = {
-  initialized: false
+  initialized: false,
 };
 
-
 const actions = [
-{
-              id: 'initialize',
-              label: 'Initialize RealtimeKit',
-              description: 'Initializes the RealtimeKit plugin. Must be called before using other methods.',
-              inputs: [],
-              run: async (values) => {
-                await plugin.initialize();
-                state.initialized = true;
-                return { success: true, message: 'RealtimeKit initialized successfully' };
-              },
-            },
-{
-              id: 'start-meeting',
-              label: 'Start Meeting',
-              description: 'Starts a meeting with the built-in UI. Requires an auth token from your Cloudflare Calls backend.',
-              inputs: [
-                { name: 'authToken', label: 'Auth Token', type: 'text', value: 'demo-token-123', placeholder: 'Enter your auth token' },
-                { name: 'enableAudio', label: 'Enable Audio', type: 'checkbox', value: true },
-                { name: 'enableVideo', label: 'Enable Video', type: 'checkbox', value: true }
-              ],
-              run: async (values) => {
-                if (!state.initialized) {
-                  return { error: 'Please initialize the plugin first' };
-                }
-                await plugin.startMeeting({
-                  authToken: values.authToken,
-                  enableAudio: values.enableAudio,
-                  enableVideo: values.enableVideo
-                });
-                return {
-                  success: true,
-                  message: 'Meeting started',
-                  config: {
-                    authToken: values.authToken.substring(0, 10) + '...',
-                    enableAudio: values.enableAudio,
-                    enableVideo: values.enableVideo
-                  }
-                };
-              },
-            },
-{
-              id: 'get-version',
-              label: 'Get Plugin Version',
-              description: 'Gets the current plugin version from the native layer.',
-              inputs: [],
-              run: async (values) => {
-                const { version } = await plugin.getPluginVersion();
-                return { version };
-              },
-            }
+  {
+    id: 'initialize',
+    label: 'Initialize RealtimeKit',
+    description: 'Initializes the RealtimeKit plugin. Must be called before using other methods.',
+    inputs: [],
+    run: async (values) => {
+      await plugin.initialize();
+      state.initialized = true;
+      return { success: true, message: 'RealtimeKit initialized successfully' };
+    },
+  },
+  {
+    id: 'start-meeting',
+    label: 'Start Meeting',
+    description:
+      'Starts a meeting with the built-in UI. Requires an auth token from your Cloudflare Calls backend.',
+    inputs: [
+      {
+        name: 'authToken',
+        label: 'Auth Token',
+        type: 'text',
+        value: 'demo-token-123',
+        placeholder: 'Enter your auth token',
+      },
+      { name: 'enableAudio', label: 'Enable Audio', type: 'checkbox', value: true },
+      { name: 'enableVideo', label: 'Enable Video', type: 'checkbox', value: true },
+    ],
+    run: async (values) => {
+      if (!state.initialized) {
+        return { error: 'Please initialize the plugin first' };
+      }
+      await plugin.startMeeting({
+        authToken: values.authToken,
+        enableAudio: values.enableAudio,
+        enableVideo: values.enableVideo,
+      });
+      return {
+        success: true,
+        message: 'Meeting started',
+        config: {
+          authToken: values.authToken.substring(0, 10) + '...',
+          enableAudio: values.enableAudio,
+          enableVideo: values.enableVideo,
+        },
+      };
+    },
+  },
+  {
+    id: 'get-version',
+    label: 'Get Plugin Version',
+    description: 'Gets the current plugin version from the native layer.',
+    inputs: [],
+    run: async (values) => {
+      const { version } = await plugin.getPluginVersion();
+      return { version };
+    },
+  },
 ];
 
 const actionSelect = document.getElementById('action-select');
@@ -212,3 +220,9 @@ runButton.addEventListener('click', async () => {
 });
 
 populateActions();
+
+if (Capacitor.isNativePlatform()) {
+  CapacitorUpdater.notifyAppReady().catch((error) => {
+    console.error('Capgo notifyAppReady failed', error);
+  });
+}
