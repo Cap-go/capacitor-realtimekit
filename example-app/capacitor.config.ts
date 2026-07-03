@@ -4,7 +4,7 @@ import pkg from './package.json';
 
 const config: CapacitorConfig = {
   appId: 'app.capgo.realtimekit',
-  appName: 'RealtimeKit Example',
+  appName: '@capgo/capacitor-realtimekit',
   webDir: 'dist',
   plugins: {
     SplashScreen: {
