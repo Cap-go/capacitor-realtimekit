@@ -90,13 +90,23 @@
       "enabled": false
     },
     {
+      "description": "RealtimeKit UI 1.1+ needs iOS 16; stay on 0.x until Capacitor 9",
+      "matchManagers": [
+        "swift",
+        "cocoapods"
+      ],
+      "matchPackagePatterns": [
+        "(?i)^cloudflare/realtimekit-ios-ui$"
+      ],
+      "allowedVersions": "<1"
+    },
+    {
       "description": "v3 needs iOS 16; revisit with the Capacitor 9 major",
       "matchManagers": [
         "swift",
         "cocoapods"
       ],
       "matchPackagePatterns": [
-        "(?i)^cloudflare/realtimekit-ios-ui$",
         "(?i)^dyte-in/realtimekitcoreios$",
         "(?i)^cloudflare/realtimekit-ios-core$"
       ],
