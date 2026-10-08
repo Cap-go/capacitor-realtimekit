@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "CapgoCapacitorRealtimekit",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v16)],
     products: [
         .library(
             name: "CapgoCapacitorRealtimekit",
@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0"),
-        .package(url: "https://github.com/dyte-in/RealtimeKitCoreiOS.git", from: "1.6.1"),
+        .package(url: "https://github.com/cloudflare/realtimekit-ios-core.git", from: "3.2.0"),
         .package(url: "https://github.com/cloudflare/realtimekit-ios-ui.git", from: "3.2.0")
     ],
     targets: [
@@ -20,7 +20,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
-                .product(name: "RealtimeKit", package: "RealtimeKitCoreiOS"),
+                .product(name: "RealtimeKit", package: "realtimekit-ios-core"),
                 .product(name: "RealtimeKitUI", package: "realtimekit-ios-ui")
             ],
             path: "ios/Sources/CapacitorRealtimekitPlugin"),
