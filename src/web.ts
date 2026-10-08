@@ -7,7 +7,6 @@ export class CapacitorRealtimekitWeb extends WebPlugin implements CapacitorRealt
     throw new Error('RealtimeKit is not supported on web platform.');
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async startMeeting(_options: StartMeetingOptions): Promise<void> {
     throw new Error('RealtimeKit is not supported on web platform. Use native iOS or Android.');
   }
