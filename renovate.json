@@ -12,67 +12,6 @@
         "npm"
       ],
       "enabled": false
-<<<<<<< HEAD
-    },
-    {
-      "matchPackagePatterns": [
-        "^com\\.google\\..*"
-      ],
-      "matchCurrentVersion": "/^.*-android$/",
-      "allowedVersions": "/^.*-android$/"
-    },
-    {
-      "matchPackagePatterns": [
-        "^com\\.android\\.tools\\.build\\:gradle$"
-      ],
-      "matchManagers": [
-        "gradle"
-      ],
-      "enabled": false
-    },
-    {
-      "matchManagers": [
-        "swift"
-      ],
-      "matchPackagePatterns": [
-        "^https://github.com/ionic-team/capacitor-swift-pm\\.git$",
-        "^ionic-team/capacitor-swift-pm$",
-        "^capacitor-swift-pm$"
-      ],
-      "allowedVersions": "8.0.0",
-      "enabled": false
-    },
-    {
-      "matchDepTypes": [
-        "peerDependencies"
-      ],
-      "matchPackageNames": [
-        "@capacitor/core"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "enabled": false
-    },
-    {
-      "matchDepTypes": [
-        "peerDependencies"
-      ],
-      "matchPackageNames": [
-        "@capacitor/core"
-      ],
-      "rangeStrategy": "replace",
-      "allowedVersions": "/^>=\\d+\\.0\\.0$/"
-    },
-    {
-      "matchPackageNames": [
-        "androidx.core:core"
-      ],
-      "matchManagers": [
-        "gradle"
-      ],
-      "enabled": false
     },
     {
       "description": "ui stays <1 because ui 1.1+ needs iOS 16; revisit with the Capacitor 9 major",
@@ -97,8 +36,6 @@
         "cloudflare/realtimekit-ios-core"
       ],
       "allowedVersions": "<2"
-=======
->>>>>>> origin/main
     }
   ]
 }
