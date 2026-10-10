@@ -12,6 +12,30 @@
         "npm"
       ],
       "enabled": false
+    },
+    {
+      "description": "ui stays <1 because ui 1.1+ needs iOS 16; revisit with the Capacitor 9 major",
+      "matchManagers": [
+        "swift",
+        "cocoapods"
+      ],
+      "matchPackageNames": [
+        "cloudflare/realtimekit-ios-ui"
+      ],
+      "allowedVersions": "<1"
+    },
+    {
+      "description": "core stays <2 because realtimekit-ios-ui 0.5.x pins core 1.x; revisit with the Capacitor 9 major",
+      "matchManagers": [
+        "swift",
+        "cocoapods"
+      ],
+      "matchPackageNames": [
+        "dyte-in/RealtimeKitCoreiOS",
+        "dyte-in/realtimekitcoreios",
+        "cloudflare/realtimekit-ios-core"
+      ],
+      "allowedVersions": "<2"
     }
   ]
 }
