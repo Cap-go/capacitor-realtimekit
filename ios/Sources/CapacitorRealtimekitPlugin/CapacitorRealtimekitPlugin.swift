@@ -7,7 +7,7 @@ import Capacitor
  */
 @objc(CapacitorRealtimekitPlugin)
 public class CapacitorRealtimekitPlugin: CAPPlugin, CAPBridgedPlugin {
-    private let pluginVersion: String = "8.0.42"
+    private let pluginVersion: String = "8.0.43"
     public let identifier = "CapacitorRealtimekitPlugin"
     public let jsName = "CapacitorRealtimekit"
     public let pluginMethods: [CAPPluginMethod] = [
